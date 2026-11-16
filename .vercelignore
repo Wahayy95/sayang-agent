@@ -1,0 +1,4 @@
+node_modules
+seen-proof-tx.json
+seen-proof-tx.json.tmp
+*.log
