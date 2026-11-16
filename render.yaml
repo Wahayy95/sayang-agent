@@ -1,0 +1,22 @@
+# Render Blueprint — SAYANG agent service (zkVerify Agent Games)
+# Plain long-running Node HTTP server (server.mjs calls server.listen($PORT)),
+# so a Render Web Service fits as-is; Vercel serverless would not.
+services:
+  - type: web
+    name: sayang-agent
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: node server.mjs
+    healthCheckPath: /health
+    envVars:
+      # Circuit artifacts live in ./circuits in this repo layout.
+      - key: CIRCUITS_DIR
+        value: ./circuits
+      # Secrets are entered in the Render dashboard at deploy time —
+      # never commit real values (sync: false keeps them out of the repo).
+      - key: AGENT_GAMES_HMAC_SECRET
+        sync: false
+      - key: STRATEGY_SALT
+        sync: false
+      # PORT is provided automatically by Render.
